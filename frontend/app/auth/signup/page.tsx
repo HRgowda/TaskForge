@@ -12,6 +12,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation";
 import { AlertMessage } from "@/components/AlertMessage";
 import { Design } from "@/components/auth/Design";
+import { BACKEND_URL } from "@/app/config";
 
 export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +29,7 @@ export default function SignUpPage() {
     e.preventDefault();
     setIsLoading(true);
     try{
-      const response = await axios.post("http://localhost:3001/api/v1/user/signup", credentials, {
+      const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, credentials, {
   headers: {
     "Content-Type": "application/json"
   }
@@ -36,7 +37,7 @@ export default function SignUpPage() {
 
       if(response.status == 200) {
         setAlertmessage({message: response.data.message, status: "success"})
-        router.push("/dashboard/home")
+        router.push("/auth/signin")
         setIsLoading(false)
       }
     } catch(error) {

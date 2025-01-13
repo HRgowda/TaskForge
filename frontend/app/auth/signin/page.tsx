@@ -12,6 +12,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation";
 import { AlertMessage } from "@/components/AlertMessage";
 import { Design } from "@/components/auth/Design";
+import { BACKEND_URL } from "@/app/config";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,11 +28,12 @@ export default function SignInPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:3001/api/v1/user/signin", credentials)
+      const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, credentials)
       if (response.status === 200){
         setAlertMessage({message: response.data.message, status: "success"})
+        localStorage.setItem("token", response.data.token);
         setTimeout(() => {
-          router.push("/dashboard/home") 
+          router.push("/dashboard") 
         }, 3000)       
       }
     } catch (error) {
