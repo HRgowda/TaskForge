@@ -31,7 +31,10 @@ export function AppBar() {
           <Button variant="ghost">
             Settings
           </Button>
-          <Button className="">
+          <Button onClick={() => {
+            localStorage.removeItem("token")
+            router.push("/auth/signin")
+          }}>
             Logout
           </Button>
         </div>
