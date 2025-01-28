@@ -73,12 +73,13 @@ router.post("/signin", async(req: any, res: any) => {
     id: user.id
   }, JWT_PASSWORD)
 
-  res.json({
-    token: token
+  res.status(200).json({
+    token: token,
+    message: "Logged In successfully!"
   })
 })
 
-router.get("/", authMiddleware, async(req: any, res: any) => {
+router.get("/logged_user", authMiddleware, async(req: any, res: any) => {
   // fix the type here
   // @ts-ignore
   const id = req.id
