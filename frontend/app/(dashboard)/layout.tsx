@@ -63,7 +63,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Button
               variant="ghost"
               onClick={() => router.push("/home")}
-              className="w-full flex items-center space-x-2 text-gray-800 hover:bg-blue-100 transition-colors duration-200 rounded-lg"
+              className="w-full flex items-center space-x-2 text-gray-800 hover:bg-blue-100 transition-colors duration-200 border-b border-black rounded-lg"
             >
               <FiHome className="text-lg" />
               <span>Home</span>
@@ -72,7 +72,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Button
               variant="ghost"
               onClick={() => router.push("/zap/create")}
-              className="w-full flex items-center space-x-2 text-gray-800 hover:bg-blue-100 transition-colors duration-200 rounded-lg"
+              className="w-full flex items-center space-x-2 text-gray-800 hover:bg-blue-100 transition-colors duration-200 border-b border-black rounded-lg"
             >
               <FiPlusCircle className="text-lg" />
               <span>Create</span>
@@ -81,13 +81,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Button
               variant="ghost"
               onClick={() => setProfileModalOpen((prev) => !prev)}
-              className="w-full flex items-center space-x-2 text-gray-800 hover:bg-blue-100 transition-colors duration-200 rounded-lg"
+              className="w-full flex items-center space-x-2 text-gray-800 hover:bg-blue-100 transition-colors duration-200 border-b border-black rounded-lg"
             >
               <FiUser className="text-lg" />
               <span>Profile</span>
             </Button>
-
           </nav>
+
         </div>
 
         {/* Logout Button */}
@@ -112,7 +112,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </button>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto p-6 lg:ml-48">{children}</main>
+      <main className="flex-1 overflow-y-auto p-6 lg:ml-32">{children}</main>
 
       {/* Profile Modal */}
       {isProfileModalOpen && user && (
