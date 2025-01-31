@@ -1,8 +1,12 @@
 // Worker processor to process the actions
 
 import { Kafka } from "kafkajs";
+import { PrismaClient } from "@prisma/client";
+import { JsonObject } from "@prisma/client/runtime/library";
+import { parse } from "./parser";
 
 const TOPIC_NAME = "zap-events"
+const prismaClient = new PrismaClient();
 
 const kafka = new Kafka({
   clientId: 'worker_processor',
@@ -10,10 +14,14 @@ const kafka = new Kafka({
 })
 
 async function main() {
+
   const consumer = kafka.consumer({
     groupId: "main-worker"
   })
   await consumer.connect();
+  
+  const producer = kafka.producer();
+  await producer.connect();
 
   await consumer.subscribe({
     topic: TOPIC_NAME,
@@ -26,13 +34,86 @@ async function main() {
     eachMessage: async ( {
       topic, partition, message
     }) => {
+
       console.log({
         partition,
         offset: message.offset,
         value: message?.value?.toString()
       })
 
+      // parse the value that is being logged
+
+      if (!message.value?.toString()){ // if a null value is pushed then return.
+        return ;
+      }
+
+      const parsedValue = JSON.parse(message.value?.toString());
+      const zapRunId = parsedValue.zapRunId;
+      const stage = parsedValue.stage;
+
+      const zapRunDetails = await prismaClient.zapRun.findFirst({
+        where:{
+          id: zapRunId
+        }, 
+        include: {
+          zap:{ // zap table has the relation with other tabes like actions and trigger so include actions, if only zap is set to true then it returns the data in its table but not the data associated with it.
+            include: {
+              actions: {
+                include: {
+                  type: true
+                }
+              }
+            }
+          }
+        }
+      })
+
+      // now we have to execute the tasks based on the sorting order and feed it to the stage.
+      const currentAction = zapRunDetails?.zap.actions.find(x => x.sortingOrder === stage);
+      
+      if(!currentAction) {
+        console.log("Current action not found");
+        return;
+      }
+
+      // console.log(currentAction);
+
+      const zapRunMetadata = zapRunDetails?.metadata;
+
+      if (currentAction.type.name === "Email") {
+
+        const body = parse((currentAction.metadata as JsonObject)?.body as string, zapRunMetadata);
+        const to = parse((currentAction.metadata as JsonObject)?.email as string, zapRunMetadata);
+        console.log(`Sending email to ${to} body is ${body}`)
+      } 
+
+      if (currentAction.type.name === "Send_Solana") {
+
+        const amount = parse((currentAction.metadata as JsonObject).amount as string, zapRunMetadata);
+        const address = parse((currentAction.metadata as JsonObject).address as string, zapRunMetadata)
+        console.log(`Sending SOL ${amount} to ${address}`);
+
+      } 
+
       await new Promise(r => setTimeout(r, 500));
+
+      // now push the control back to queue to see is there any action to be performed, it can also be done parallelly or sequentially.
+      const lastStage = (zapRunDetails?.zap.actions?.length || 1 ) - 1
+      
+      // now a producer will send a new value.
+      if (lastStage !== stage) {
+        producer.send({
+          topic: TOPIC_NAME,
+          messages: [{
+            value: JSON.stringify({
+              stage: stage + 1, // a new stage value so that the worker picks up and process the action based on the stage.
+              zapRunId
+            }),
+            
+          }]
+        })
+      }
+
       console.log("Processing Done")
 
       await consumer.commitOffsets([{
