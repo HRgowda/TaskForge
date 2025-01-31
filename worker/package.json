@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "tsc -b && node dist/index.js"
+    "dev": "tsc -b && node dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "kafkajs": "^2.2.4"
+    "@prisma/client": "^5.18.0",
+    "kafkajs": "^2.2.4",
+    "nodemailer": "^6.10.0"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.17",
+    "prisma": "^5.18.0"
   }
 }
