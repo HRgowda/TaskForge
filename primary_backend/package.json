@@ -5,6 +5,10 @@
   "scripts": {
     "dev": "tsc -b && node dist/index.js"
   },
+  "prisma":{
+    "seed": "tsc-node prisma/seed.ts"
+  },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
