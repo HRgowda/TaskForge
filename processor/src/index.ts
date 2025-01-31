@@ -21,10 +21,15 @@ async function main() {
       take: 10
     })
 
+    console.log(pendingRows)
+
     producer.send({
       topic: TOPIC_NAME,
       messages: pendingRows.map(r => ({
-        value: r.zapRunId
+        value: JSON.stringify({
+          value: r.zapRunId,
+          stage: 0 // stage defines which action is the "worker" currently executing 
+        })
       }))
     });
 
@@ -35,6 +40,8 @@ async function main() {
         }
       }
     })
+    await new Promise(r => setTimeout(r, 3000));
+
   }
 }
 
