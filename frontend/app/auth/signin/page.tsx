@@ -33,7 +33,7 @@ export default function SignInPage() {
         setAlertMessage({message: response.data.message, status: "success"})
         localStorage.setItem("token", response.data.token);
         setTimeout(() => {
-          router.push("/dashboard") 
+          router.push("/home") 
         }, 3000)       
       }
     } catch (error) {

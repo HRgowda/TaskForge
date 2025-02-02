@@ -34,7 +34,7 @@ export function Footer() {
             <Shield className="h-6 w-6" />
             <span className="text-xl font-semibold">TaskForge</span>
           </div>
-          <p className="text-sm text-gray-500">© 2024 TaskForge. All rights reserved.</p>
+          <p className="text-sm text-gray-500">© 2025 TaskForge. All rights reserved.</p>
         </div>
       </div>
     </footer>

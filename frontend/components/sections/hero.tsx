@@ -21,7 +21,7 @@ export function Hero() {
             </span>
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600 max-w-2xl mx-auto">
-          An application to automate tasks and connect your favorite tools seamlessly.
+          An automated bounty distribution application for GitHub issues, ensuring seamless validation and reward transfers without manual intervention.
           </p>
           <div className="mt-10 flex items-center justify-center">
             <Link href={"/auth/signup"}>
