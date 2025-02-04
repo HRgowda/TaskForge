@@ -11,6 +11,7 @@ export interface zap {
   id: string;
   triggerId: string;
   userId: number;
+  Date: Date;
   actions: {
     id: string;
     zapId: string;

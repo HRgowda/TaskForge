@@ -90,7 +90,14 @@ export function ZapTable({ zaps }: { zaps: zap[] }) {
             <div className="text-sm font-mono text-gray-600">{zap.id}</div>
 
             {/* Created At Column */}
-            <div className="text-sm text-gray-600">Nov 13, 2025</div>
+            <div className="text-sm text-gray-600">{new Date(zap.Date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hourCycle: "h24"
+            })}</div>
 
             {/* Webhook URL Column */}
             <div className="relative flex items-center justify-center group/webhook">

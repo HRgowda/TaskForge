@@ -2,6 +2,18 @@ import { PrismaClient } from "@prisma/client";
 const prismaClient = new PrismaClient()
 
 async function main() {
+
+  await prismaClient.user.create({
+    data:{
+      id: 1,
+      name: "John",
+      email: "john@gmail.com",
+      password: "12345678",
+      Solana: 10,
+      INR: 5000
+    }
+  })
+
   await prismaClient.availableTrigger.create({
     data: {
       id: "webhook",
