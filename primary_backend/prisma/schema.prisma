@@ -68,7 +68,7 @@ model AvailableTrigger {
 }
  
 model ZapRun {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   zapId String
   metadata Json?
@@ -78,6 +78,6 @@ model ZapRun {
 
 model ZapRunOutbox {
   id String @id @default(uuid())
-  zapRunId String @unique
+  zapRunId Int @unique
   zapRun ZapRun @relation(fields: [zapRunId], references: [id])
 }

@@ -16,5 +16,4 @@ export function authMiddleware (req: any, res: any, next: NextFunction) {
       message: "You are not logged in"
     })
   }
-
 }

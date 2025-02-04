@@ -33,8 +33,16 @@ async function main() {
   await prismaClient.availableAction.create({
     data: {
       id: "Solana",
-      name: "Send_Solana",
+      name: "Solana",
       image: "https://th.bing.com/th?q=Solana+Coin+PNG&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247"
+    }
+  })
+
+  await prismaClient.availableAction.create({
+    data: {
+      id: "Inr",
+      name: "INR",
+      image: "https://static.vecteezy.com/system/resources/previews/009/793/636/original/india-currency-rupee-icon-symbol-illustration-free-vector.jpg"
     }
   })
 }
