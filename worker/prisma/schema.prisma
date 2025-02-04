@@ -18,9 +18,8 @@ model User{
   name String
   email String @unique
   password String
-  address String @unique
-  Solana Float
-  INR Float
+  Solana Float @default(0)
+  INR Float @default(0) 
   zaps Zap[]
 }
 
@@ -31,7 +30,7 @@ model Zap {
   trigger Trigger?
   actions Action[]
   zapRuns ZapRun[]
-  // Date DateTime @default(now())
+  Date DateTime @default(now())
   user User @relation(fields: [userId], references: [id])
 }
 
@@ -69,7 +68,8 @@ model AvailableTrigger {
 }
  
 model ZapRun {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
   zapId String
   metadata Json?
   zap Zap @relation(fields: [zapId], references: [id])
@@ -78,6 +78,6 @@ model ZapRun {
 
 model ZapRunOutbox {
   id String @id @default(uuid())
-  zapRunId String @unique
+  zapRunId Int @unique
   zapRun ZapRun @relation(fields: [zapRunId], references: [id])
 }
