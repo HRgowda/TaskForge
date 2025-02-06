@@ -111,14 +111,14 @@ export default function SignUpPage() {
                 I agree to the{" "}
                 <Link
                   href="/terms"
-                  className="font-medium text-white transition-colors"
+                  className="font-medium text-white hover:text-white/80 transition-colors"
                 >
                   Terms of Service
                 </Link>{" "}
                 and{" "}
                 <Link
                   href="/privacy"
-                  className="font-medium text-white hover:text-primary transition-colors"
+                  className="font-medium text-white hover:text-white/80 transition-colors"
                 >
                   Privacy Policy
                 </Link>

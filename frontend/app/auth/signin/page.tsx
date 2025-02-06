@@ -60,7 +60,7 @@ export default function SignInPage() {
                 id="email"
                 type="email"
                 placeholder="john@example.com"
-                className="bg-transparent border-none text-white backdrop-blur-sm transition-colors focus:bg-transparent"
+                className="bg-transparent border border-white text-white backdrop-blur-sm transition-colors focus:bg-transparent"
                 required
                 onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
               />
@@ -72,7 +72,8 @@ export default function SignInPage() {
               <Input
                 id="password"
                 type="password"
-                className="bg-transparent border-none text-white backdrop-blur-sm transition-colors focus:bg-transparent"
+                placeholder="Enter your password"
+                className="bg-transparent border border-white text-white backdrop-blur-sm transition-colors focus:bg-transparent"
                 required
                 onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
               />
