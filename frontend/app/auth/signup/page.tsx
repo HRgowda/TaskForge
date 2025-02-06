@@ -11,20 +11,9 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import axios from "axios"
 import { useRouter } from "next/navigation";
 import { AlertMessage } from "@/components/AlertMessage";
-import { Design } from "@/components/auth/Design";
 import { BACKEND_URL } from "@/app/config";
 
-// function generateRandomAddress(length: number = 8): string {
-//   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-//   let address = '';
-//   for (let i = 0; i < length; i++) {
-//     address += characters.charAt(Math.floor(Math.random() * characters.length));
-//   }
-//   return address;
-// }
-
 export default function SignUpPage() {
-  // const randomAddress = generateRandomAddress();
 
   const [isLoading, setIsLoading] = useState(false);
   const [credentials, setCredentials] = useState({
@@ -62,13 +51,8 @@ export default function SignUpPage() {
 
   return (
     <div className="flex h-screen">
-      {/* Left Section */}
-      <div className="w-1/2 flex items-center justify-center">
-        <Design title="Welcome to Your Journey" description="Start your journey by creating an account." />
-      </div>
   
-      {/* Right Section */}
-      <div className="w-1/2 flex items-center justify-center">
+      <div className="w-full flex items-center justify-center">
         <AuthCard
           title="Create your account"
           description="Start your 30-day free trial. No credit card required."
@@ -80,7 +64,7 @@ export default function SignUpPage() {
                 <Input
                   id="firstName"
                   placeholder="John"
-                  className="bg-white/50 backdrop-blur-sm transition-colors focus:bg-white"
+                  className="bg-transparent border border-white text-white backdrop-blur-sm transition-colors"
                   required
                   onChange={(e) =>
                     setCredentials({ ...credentials, name: e.target.value })
@@ -93,7 +77,7 @@ export default function SignUpPage() {
                   id="username"
                   type="username"
                   placeholder="john@company.com"
-                  className="bg-white/50 backdrop-blur-sm transition-colors focus:bg-white"
+                  className="bg-transparent text-white backdrop-blur-sm transition-colors focus:bg-transparent border border-white"
                   required
                   onChange={(e) =>
                     setCredentials({ ...credentials, username: e.target.value })
@@ -105,35 +89,36 @@ export default function SignUpPage() {
                 <Input
                   id="password"
                   type="password"
-                  className="bg-white/50 backdrop-blur-sm transition-colors focus:bg-white"
+                  placeholder="abc123!@#"
+                  className="bg-transparent text-white backdrop-blur-sm transition-colors focus:bg-transparent"
                   required
                   onChange={(e) =>
                     setCredentials({ ...credentials, password: e.target.value })
                   }
                 />
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-300 mt-4">
                   Must be at least 8 characters long
                 </p>
               </div>
             </div>
   
             <div className="flex items-center space-x-2">
-              <Checkbox id="terms" required />
+              <Checkbox id="terms" className="border border-white" required />
               <label
                 htmlFor="terms"
-                className="text-sm text-gray-600 cursor-pointer"
+                className="text-sm text-gray-400 cursor-pointer"
               >
                 I agree to the{" "}
                 <Link
                   href="/terms"
-                  className="font-medium text-primary/80 hover:text-primary transition-colors"
+                  className="font-medium text-white transition-colors"
                 >
                   Terms of Service
                 </Link>{" "}
                 and{" "}
                 <Link
                   href="/privacy"
-                  className="font-medium text-primary/80 hover:text-primary transition-colors"
+                  className="font-medium text-white hover:text-primary transition-colors"
                 >
                   Privacy Policy
                 </Link>
@@ -141,7 +126,7 @@ export default function SignUpPage() {
             </div>
   
             <Button
-              className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary transition-all duration-300"
+              className="w-full bg-blue-800 hover:bg-blue-600 transition-all duration-300"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -158,10 +143,10 @@ export default function SignUpPage() {
             </Button>
   
             <div className="text-center text-sm">
-              <span className="text-gray-600">Already have an account?</span>{" "}
+              <span className="text-gray-400">Already have an account?</span>{" "}
               <Link
                 href="/auth/signin"
-                className="font-medium text-primary/80 hover:text-primary transition-colors"
+                className="font-medium text-blue-500 hover:text-blue-300 transition-colors"
               >
                 Sign in
               </Link>
