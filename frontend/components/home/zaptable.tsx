@@ -6,102 +6,80 @@ import { ArrowRight, Copy } from "lucide-react";
 import { useState } from "react";
 import { zap } from "@/app/(dashboard)/home/page";
 import { AlertMessage } from "../AlertMessage";
+import { useRouter } from "next/navigation";
 
 export function ZapTable({ zaps }: { zaps: zap[] }) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [alertMessage, setAlertMessage] = useState<{message: string, status: "success" | "failure"} | null>(null)
+  const [alertMessage, setAlertMessage] = useState<{ message: string; status: "success" | "failure" } | null>(null);
+
+  const router = useRouter();
 
   const copyWebhookUrl = async (id: string, url: string) => {
-    try{
-      await navigator.clipboard.writeText(url)
-      setCopiedId(id)
-      setTimeout(() => {
-        setCopiedId(null)
-      }, 2000)
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
     } catch {
-      setAlertMessage({
-        message: "Failed to copy the url",
-        status: "failure"
-      })
+      setAlertMessage({ message: "Failed to copy the URL", status: "failure" });
     }
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-2xl border border-gray-300">
-      {/* Header */}
-      <div className="p-6 border-b border-gray-200 text-center">
-        <h2 className="text-xl font-semibold text-gray-900">Your Automations</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Manage and monitor your automation workflows
-        </p>
+    <div className="bg-[#1E1E1E] rounded-lg mt-2 shadow-md border border-[#292929] hover:shadow-white">
+      <div className="p-6 border-b border-[#292929] text-center">
+        <h2 className="text-xl font-semibold text-white">Your Automations</h2>
+        <p className="text-sm text-gray-400 mt-1">Manage and monitor your automation workflows</p>
       </div>
 
-      {/* Table Header */}
-      <div className="grid grid-cols-5 gap-4 px-6 py-4 bg-gray-50 text-sm font-bold text-gray-600 text-center border-b border-t border-gray-300">
+      <div className="grid grid-cols-5 gap-4 px-6 py-4 bg-[#181818] text-sm font-semibold text-gray-300 text-center border-b border-[#292929]">
+        <div>SL No.</div>
         <div>Workflow</div>
         <div>ID</div>
         <div>Created</div>
         <div>Webhook URL</div>
-        <div>Actions</div>
       </div>
 
-      {/* Table Body */}
-      <div className="divide-y divide-gray-200">
-        {zaps.map((zap) => (
+      <div className="divide-y divide-[#292929]">
+        {zaps.map((zap, index) => (
           <div
             key={zap.id}
-            className="grid grid-cols-5 gap-4 px-6 py-8 items-center hover:bg-gray-50/50 transition-colors group text-center"
+            className="grid grid-cols-5 gap-4 px-6 py-6 items-center hover:bg-[#242424] transition-colors group text-center"
           >
-            {/* Workflow Column */}
+            <div className="text-sm font-mono text-gray-400">{index + 1}</div>
+            
             <div className="flex flex-col items-center">
-              
-              <div className="w-10 h-10 rounded-xl bg-white shadow-md p-2 flex items-center justify-center">
-                <img
-                  src={zap.trigger.type.image}
-                  alt={zap.trigger.type.name}
-                  className="w-full h-full object-contain"
-                />
+              <div className="w-10 h-10 rounded-full bg-white shadow-md p-2 flex items-center justify-center">
+                <img src={zap.trigger.type.image} alt={zap.trigger.type.name} className="w-full h-full object-contain" />
               </div>
-
-              {/* Action Icons */}
               <div className="flex flex-wrap justify-center gap-2 mt-2">
                 {zap.actions
                   .sort((a, b) => a.sortingOrder - b.sortingOrder)
-                  .map((action, index) => (
+                  .map((action) => (
                     <div
                       key={action.actionId}
-                      className="w-10 h-10 rounded-lg bg-white shadow-md p-1.5 flex items-center justify-center"
-                      // style={{
-                      //   marginTop: index >= 2 ? "8px" : "0px", // Move to new row if 3rd image
-                      // }}
+                      className="w-10 h-10 rounded-full bg-white shadow-md p-1.5 flex items-center justify-center"
                     >
-                      <img
-                        src={action.type.image}
-                        alt={action.type.name}
-                        className="w-full h-full object-contain"
-                        loading="lazy"
-                      />
+                      <img src={action.type.image} alt={action.type.name} className="w-full h-full object-contain" loading="lazy" />
                     </div>
                   ))}
               </div>
             </div>
 
-            {/* ID Column */}
-            <div className="text-sm font-mono text-gray-600">{zap.id}</div>
+            <div className="text-sm font-mono text-gray-400">{zap.id}</div>
 
-            {/* Created At Column */}
-            <div className="text-sm text-gray-600">{new Date(zap.Date).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-              hourCycle: "h24"
-            })}</div>
+            <div className="text-sm text-gray-400">
+              {new Date(zap.Date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hourCycle: "h24",
+              })}
+            </div>
 
-            {/* Webhook URL Column */}
             <div className="relative flex items-center justify-center group/webhook">
-              <div className="max-w-[200px] truncate text-sm text-gray-600 font-mono px-2">
+              <div className="max-w-[200px] truncate text-sm text-gray-400 font-mono px-2">
                 {`${HOOKS_URL}/hooks/catch/${zap.userId}/${zap.id}`}
               </div>
               <button
@@ -109,27 +87,27 @@ export function ZapTable({ zaps }: { zaps: zap[] }) {
                 className="ml-3 opacity-0 group-hover/webhook:opacity-100 transition-opacity"
               >
                 {copiedId === zap.id ? (
-                  <span className="text-green-600 text-xs font-medium">Copied!</span>
+                  <span className="text-green-400 text-xs font-medium">Copied!</span>
                 ) : (
-                  <Copy className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+                  <Copy className="h-4 w-4 text-gray-500 hover:text-gray-300" />
                 )}
               </button>
             </div>
 
-            {/* Actions Column */}
-            <div className="flex items-center justify-center gap-2">
-              <Button className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-md hover:shadow-lg transition-all duration-300 group/button">
+            {/* <div className="flex items-center justify-center gap-2">
+              <Button
+                onClick={() => router.push(`/zap/${zap.id}`)}
+                className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-md hover:shadow-lg transition-all duration-300 group/button"
+              >
                 View Details
                 <ArrowRight className="ml-2 h-4 w-4 transform group-hover/button:translate-x-0.5 transition-transform" />
               </Button>
-            </div>
+            </div> */}
           </div>
         ))}
       </div>
-      {alertMessage && (
-        <AlertMessage message={alertMessage.message} status={alertMessage.status}  />
-      )}
-      
+
+      {alertMessage && <AlertMessage message={alertMessage.message} status={alertMessage.status} />}
     </div>
   );
 }

@@ -14,12 +14,24 @@ import { AlertMessage } from "@/components/AlertMessage";
 import { Design } from "@/components/auth/Design";
 import { BACKEND_URL } from "@/app/config";
 
+// function generateRandomAddress(length: number = 8): string {
+//   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//   let address = '';
+//   for (let i = 0; i < length; i++) {
+//     address += characters.charAt(Math.floor(Math.random() * characters.length));
+//   }
+//   return address;
+// }
+
 export default function SignUpPage() {
+  // const randomAddress = generateRandomAddress();
+
   const [isLoading, setIsLoading] = useState(false);
   const [credentials, setCredentials] = useState({
     name: "",
     username: "",
-    password: ""
+    password: "",
+    // address: randomAddress,
   })
   const [alertmessage, setAlertmessage] = useState<{message: string, status: "success" | "failure"} | null>(null)
 

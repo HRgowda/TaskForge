@@ -62,7 +62,7 @@ export default function DashboardPage() {
   const { loading, zaps } = useZaps();
 
   return (
-    <div className="ml-32">
+    <div>
       {loading ? (
         <Loading />
       ) : zaps.length === 0 ? (
