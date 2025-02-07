@@ -68,7 +68,7 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#121212]">
+    <div className="min-h-screen flex bg-[#121212] pt-20">
 
       {/* Left Grid (Fixed - 40%) */}
       <div className="w-2/5 p-8 text-white flex flex-col sticky top-0 h-screen overflow-hidden bg-[#121212]">

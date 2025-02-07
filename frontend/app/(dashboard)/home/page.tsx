@@ -68,7 +68,7 @@ export default function DashboardPage() {
       ) : zaps.length === 0 ? (
         <CreateZap />
       ) : (
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-20">
           <ZapTable zaps={zaps} />
         </div>
       )}

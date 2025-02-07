@@ -14,7 +14,6 @@ export default function Home() {
       <main className="flex-grow">
         <Hero />
         <Features />
-        {/* <Integrations /> */}
         <CTA />
         <Footer />
       </main>

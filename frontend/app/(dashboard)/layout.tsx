@@ -80,6 +80,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
               <Button
                 variant="ghost"
+                onClick={() => router.push("/profile")}
+                className="text-gray-100 hover:bg-transparent hover:text-blue-500 transition-all duration-200 px-4 py-2 rounded-lg"
+              >
+                <FiPlusCircle className="text-lg" />
+                <span>Profile</span>
+              </Button>
+
+              <Button
+                variant="ghost"
                 onClick={() => router.push("/docs")}
                 className="text-gray-100 hover:bg-transparent hover:text-blue-500 transition-all duration-200 px-4 py-2 rounded-lg"
               >
@@ -101,7 +110,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </nav>
 
       {/* Main Content Area (will scroll behind the navbar) */}
-      <main className="flex-1 overflow-y-auto pt-20 px-4 bg-[#121212]">{children}</main>
+      <main className="flex-1 overflow-y-auto  px-4 bg-[#121212]">{children}</main>
 
       {/* Profile Modal */}
       {isProfileModalOpen && user && (
