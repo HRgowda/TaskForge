@@ -3,7 +3,9 @@ import z from "zod"
 export const SignupSchema = z.object({
   username: z.string().email(),
   password: z.string().min(6),
-  name: z.string().min(3)
+  name: z.string().min(3),
+  Solana: z.number(),
+  INR: z.number()
 })
 
 export const SigninSchema = z.object({

@@ -1,19 +1,22 @@
-import { NextFunction, Request, Response } from "express"
-import jwt from "jsonwebtoken"
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import { JWT_PASSWORD } from "./config";
 
-export function authMiddleware (req: any, res: any, next: NextFunction) {
+export function authMiddleware(req: any, res: Response, next: NextFunction): void {
+  
+  const token = req.headers.authorization;
 
-  const token = req.headers.authorization as unknown as string;
+  if (!token) {
+    res.status(401).json({ message: "No token provided" });
+    return
+  }
 
   try {
-    const payload = jwt.verify(token, JWT_PASSWORD)
-    // @ts-ignore
-    req.id = payload.id;
-    next()
+    const payload = jwt.verify(token, JWT_PASSWORD) as { id: number };
+    req.user = { id: payload.id }; // Store the user ID properly
+    next(); // Always call next() if successful
   } catch (e) {
-    return res.status(403).json({
-      message: "You are not logged in"
-    })
+    res.status(403).json({ message: "Invalid or expired token" });
+    return; // Ensure no further execution
   }
 }

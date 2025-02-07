@@ -75,7 +75,6 @@ router.get("/", authMiddleware, async (req: any, res: any) => {
             }
         }
     });
-    console.log("zaps handler")
     return res.json({
         zaps
     })
@@ -85,7 +84,7 @@ router.get("/:zapId", authMiddleware, async (req: any, res: any) => {
     //@ts-ignore
     const id = req.id;
     const zapId = req.params.zapId;
-
+    
     const zap = await prismaClient.zap.findFirst({
         where: {
             id: zapId,

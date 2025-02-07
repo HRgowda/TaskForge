@@ -39,8 +39,10 @@ router.post("/signup", async (req: any, res: any) => {
     data:{
       email: parsedData.data.username,
       password: parsedData.data.password,
-      name: parsedData.data.name
-    }
+      name: parsedData.data.name,
+      Solana: 10,
+      INR: 5000
+    } 
   })
 
   return res.status(200).json({
@@ -82,53 +84,34 @@ router.post("/signin", async(req: any, res: any) => {
   })
 })
 
-// interface CustomRequest extends Request {
-//   id?: string; // You can make it non-optional if you're sure it will always be there
-// }
+router.get("/logged_user", authMiddleware, async (req: any, res: any) => {
+  try {
+    const userId = req.user?.id;
 
-// router.get("/logged_user", authMiddleware, async (req: Request, res: Response): Promise<void> => {
-//   try {
-//     // Assuming `authMiddleware` attaches `id` to `req.user`
-//     const userId = (req as any).user?.id; 
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
-//     if (!userId) {
-//       res.status(401).json({ error: "Unauthorized" });
-//       return;
-//     }
+    const user = await prismaClient.user.findUnique({
+      where: { id: userId },
+      select: {
+        name: true,
+        email: true,
+        Solana: true,
+        INR: true,
+      },
+    });
 
-//     const user = await prismaClient.user.findUnique({
-//       where: { id: userId }
-//     });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-//     if (!user) {
-//       res.status(404).json({ error: "User not found" });
-//       return;
-//     }
+    return res.json({ user });
 
-//     // Debugging: Log the user object to verify its structure
-//     console.log("Fetched User:", user);
-
-//     res.json({ user });
-//   } catch (error) {
-//     console.error("Error fetching user:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-
-
-// router.get("/get_user", authMiddleware, async (req: any, res: any) => {
-//   // @ts-ignore
-//   const id = req.id
-
-//   const user = await prismaClient.user.findFirst({
-//     where:{
-//       id
-//     }
-//   });
-
-//   return res.json({
-//     user
-//   })
-// })
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 export const userRouter = router;
