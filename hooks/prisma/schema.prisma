@@ -16,16 +16,22 @@ datasource db {
 model User{
   id Int @id @default(autoincrement())
   name String
-  email String
+  email String @unique
   password String
+  Solana Float @default(10)
+  INR Float @default(5000) 
+  zaps Zap[]
 }
 
 model Zap {
   id String @id @default(uuid())
   triggerId String 
+  userId Int
   trigger Trigger?
   actions Action[]
   zapRuns ZapRun[]
+  Date DateTime @default(now())
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Trigger {
@@ -41,33 +47,37 @@ model Action {
   zapId String
   zap Zap @relation(fields: [zapId], references: [id])
   actionId String
+  metadata Json @default("{}")
   type AvailableAction @relation(fields: [actionId], references: [id])
+  sortingOrder Int @default(0)
 
 }
 
 model AvailableAction { 
   id String @id @default(uuid())
   name String
+  image String
   actions Action[]
 }
 
 model AvailableTrigger {
   id String @id @default(uuid())
   name String
-
+  image String
   triggers Trigger[]
 }
  
 model ZapRun {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
   zapId String
-  metadata Json
+  metadata Json?
   zap Zap @relation(fields: [zapId], references: [id])
   zapRunOutbox ZapRunOutbox?
 }
 
 model ZapRunOutbox {
   id String @id @default(uuid())
-  zapRunId String @unique
+  zapRunId Int @unique
   zapRun ZapRun @relation(fields: [zapRunId], references: [id])
 }
