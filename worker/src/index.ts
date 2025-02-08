@@ -58,7 +58,7 @@ async function main() {
   await consumer.run({
     autoCommit: false,
     eachMessage: async ({ topic, partition, message }) => {
-      
+
       // parse the value that is being logged
       if (!message.value?.toString()) {
         // if a null value is pushed then return.
