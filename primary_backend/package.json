@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "npx ts-node src/index.ts"
+    "dev": "npx ts-node src/index.ts",
+    "client": "npx prisma generate",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

@@ -46,7 +46,7 @@ router.post("/signup", async (req: any, res: any) => {
   })
 
   return res.status(200).json({
-    message: "Please verify your account by checking your email"
+    message: "Account created sucessfully!"
   })
 
 })
