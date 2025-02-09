@@ -12,6 +12,8 @@ app.post("/hooks/catch/:userId/:zapId", async (req: any, res: any) => {
     const { userId, zapId } = req.params;
     const requestedBody = req.body;
 
+    console.log(requestedBody)
+
     let actualBody;
     try {
       actualBody = JSON.parse(requestedBody?.comment?.body);
