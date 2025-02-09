@@ -1,3 +1,5 @@
+// Service to send email about their bounty .
+
 import nodemailer from "nodemailer"
 
 const transporter = nodemailer.createTransport({
