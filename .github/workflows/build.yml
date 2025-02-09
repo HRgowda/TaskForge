@@ -1,0 +1,70 @@
+name: Build on push or pull request for multiple backend folders.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "hooks/**"
+      - "primary_backend/**"
+      - "processor/**"
+      - "worker/**"
+  pull_request:
+    branches:
+      - main
+    paths: 
+      - "hooks/**"
+      - "primary_backend/**"
+      - "processor/**"
+      - "worker/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        backend: [hooks, primary_backend, processor, worker]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Check if any backend code was modified
+        id: check_changes
+        run: |
+          if git diff --name-only HEAD^ HEAD | grep -q "^${{matrix.backend}}/"; then echo "run_ci=true" >> $GITHUB_ENV
+          else 
+            echo "run_ci=false" >> $GITHUB_ENV
+          fi
+
+      - name: Install dependencies
+        if: env.run_ci == 'true'
+        run: |
+          cd ${{ matrix.backend }}
+          npm install --legacy-peer-deps
+
+      - name: Generate prisma client
+        if: env.run_ci == 'true'
+        run: |
+          cd ${{ matrix.backend }}
+          npm run client
+
+      - name: Compile typescript
+        if: env.run_ci == 'true'
+        run: |
+          cd ${{ matrix.backend }}
+          npm run build
+
+      - name: Start the server
+        if: env.run_ci == 'true'
+        run: |
+          cd ${{ matrix.backend }}
+          npm run start
+
+
+
