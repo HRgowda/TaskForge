@@ -18,8 +18,8 @@ model User{
   name String
   email String @unique
   password String
-  Solana Float @default(0)
-  INR Float @default(0) 
+  Solana Float @default(10)
+  INR Float @default(5000) 
   zaps Zap[]
 }
 
