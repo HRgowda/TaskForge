@@ -12,8 +12,6 @@ app.post("/hooks/catch/:userId/:zapId", async (req: any, res: any) => {
     const { userId, zapId } = req.params;
     const requestedBody = req.body;
 
-    console.log(requestedBody)
-
     let actualBody;
     try {
       actualBody = JSON.parse(requestedBody?.comment?.body);
@@ -33,7 +31,7 @@ app.post("/hooks/catch/:userId/:zapId", async (req: any, res: any) => {
     };
 
     // Log's for some testing purpose..
-    // console.log("Webhook received!");
+    console.log("Webhook received!");
     // console.log(JSON.stringify(requestedBody, null, 2));
     // console.log("Actual body", actualBody);
 
