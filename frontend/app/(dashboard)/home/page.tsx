@@ -46,7 +46,7 @@ function useZaps() {
           Authorization: localStorage.getItem("token"),
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         setZaps(res.data.zaps);
         setLoading(false);
       });

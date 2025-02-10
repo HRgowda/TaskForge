@@ -46,7 +46,7 @@ export function CreateZap() {
             <h3 className="text-xl font-semibold text-white">Why automate?</h3>
             <ul className="space-y-4 text-left">
               {["Automate bounty distribution for GitHub issues", "Eliminate manual intervention and save time", "Ensure accurate and seamless bounty transfers", "Focus on streamlining your workflow and scaling effortlessly"].map(
-                (feature, index) => (
+                (feature: string, index: number) => (
                   <li key={index} className="flex items-center gap-3">
                     <div className="w-2 h-2 rounded-full bg-purple-500" />
                     <span className="text-gray-400">{feature}</span>

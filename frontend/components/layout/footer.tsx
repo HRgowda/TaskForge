@@ -14,11 +14,11 @@ export function Footer() {
     <footer className="bg-[#121212] text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:gap-12">
-          {Object.entries(footerLinks).map(([category, links]) => (
+          {Object.entries(footerLinks).map(([category, links]): any => (
             <div key={category}>
               <h3 className="font-semibold mb-4">{category}</h3>
               <ul className="space-y-3">
-                {links.map((link) => (
+                {links.map((link: any) => (
                   <li key={link}>
                     <a href="#" className="text-gray-400 hover text-sm">
                       {link}

@@ -8,7 +8,7 @@ export function Modal({
   availableItems,
 }: {
   index: number;
-  onSelect: (props: null | { name: string; id: string; metadata: any; image?: string }) => void;
+  onSelect: (props: null | { name: string; id: string; metadata: string; image?: string }) => void;
   availableItems: { id: string; name: string; image: string }[];
 }) {
   const [step, setStep] = useState(0);
@@ -44,7 +44,7 @@ export function Modal({
                 <div
                   onClick={() => {
                     if (isTrigger) {
-                      onSelect({ id, name, metadata: {}, image });
+                      onSelect({ id, name, metadata: "", image });
                     } else {
                       setStep(1);
                       setSelectedAction({ id, name, image });

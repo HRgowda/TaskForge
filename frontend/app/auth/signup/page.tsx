@@ -20,7 +20,6 @@ export default function SignUpPage() {
     name: "",
     username: "",
     password: "",
-    // address: randomAddress,
   })
   const [alertmessage, setAlertmessage] = useState<{message: string, status: "success" | "failure"} | null>(null)
 
@@ -31,9 +30,9 @@ export default function SignUpPage() {
     setIsLoading(true);
     try{
       const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, credentials, {
-  headers: {
-    "Content-Type": "application/json"
-  }
+        headers: {
+          "Content-Type": "application/json"
+        }
       });
 
       if(response.status == 200) {
@@ -41,7 +40,7 @@ export default function SignUpPage() {
         router.push("/auth/signin")
         setIsLoading(false)
       }
-    } catch(error) {
+    } catch(error: any) {
       console.log(error)
       const errorMessage = "Failed to create your account, Please try again later"
       setAlertmessage({message: errorMessage, status: "failure"})
@@ -66,7 +65,7 @@ export default function SignUpPage() {
                   placeholder="John"
                   className="bg-transparent border border-white text-white backdrop-blur-sm transition-colors"
                   required
-                  onChange={(e) =>
+                  onChange={(e: any) =>
                     setCredentials({ ...credentials, name: e.target.value })
                   }
                 />
@@ -79,7 +78,7 @@ export default function SignUpPage() {
                   placeholder="john@company.com"
                   className="bg-transparent text-white backdrop-blur-sm transition-colors focus:bg-transparent border border-white"
                   required
-                  onChange={(e) =>
+                  onChange={(e: any) =>
                     setCredentials({ ...credentials, username: e.target.value })
                   }
                 />
@@ -92,12 +91,12 @@ export default function SignUpPage() {
                   placeholder="abc123!@#"
                   className="bg-transparent text-white backdrop-blur-sm transition-colors focus:bg-transparent"
                   required
-                  onChange={(e) =>
+                  onChange={(e: any) =>
                     setCredentials({ ...credentials, password: e.target.value })
                   }
                 />
                 <p className="text-xs text-gray-300 mt-4">
-                  Must be at least 8 characters long
+                  Must be at least 6 characters long
                 </p>
               </div>
             </div>

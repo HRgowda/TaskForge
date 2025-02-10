@@ -17,10 +17,10 @@ function useAvailableActionsAndTriggers() {
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/api/v1/trigger/available`)
-      .then((x) => setAvailableTriggers(x.data.availableTriggers));
+      .then((x: any) => setAvailableTriggers(x.data.availableTriggers));
 
     axios.get(`${BACKEND_URL}/api/v1/action/available`)
-      .then((x) => setAvailableActions(x.data.availableActions));
+      .then((x: any) => setAvailableActions(x.data.availableActions));
   }, []);
 
   return { availableActions, availableTriggers };
@@ -41,7 +41,7 @@ export default function Page() {
       {
         availableTriggerId: selectedTrigger.id,
         triggerMetadata: {},
-        actions: selectedActions.map((a) => ({
+        actions: selectedActions.map((a: any) => ({
           availableActionId: a.availableActionId,
           actionMetadata: a.metadata,
         })),
@@ -55,7 +55,7 @@ export default function Page() {
   };
 
   const addNewAction = () => {
-    setSelectedActions((a) => [
+    setSelectedActions((a: any) => [
       ...a,
       {
         index: a.length + 2,
@@ -156,7 +156,7 @@ export default function Page() {
             if (selectedModalIndex === 1) {
               setSelectedTrigger({ id: props.id, name: props.name, image: props.image });
             } else {
-              setSelectedActions((a) => {
+              setSelectedActions((a: any) => {
                 const newActions = [...a];
                 newActions[selectedModalIndex - 2] = {
                   index: selectedModalIndex,

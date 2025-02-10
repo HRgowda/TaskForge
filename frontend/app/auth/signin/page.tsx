@@ -36,7 +36,7 @@ export default function SignInPage() {
           router.push("/home");
         }, 3000);
       }
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = "Failed to log in, check your credentials";
       setAlertMessage({ message: errorMessage, status: "failure" });
       console.log(error);
@@ -62,7 +62,7 @@ export default function SignInPage() {
                 placeholder="john@example.com"
                 className="bg-transparent border border-white text-white backdrop-blur-sm transition-colors focus:bg-transparent"
                 required
-                onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+                onChange={(e: any) => setCredentials({ ...credentials, username: e.target.value })}
               />
             </div>
             <div className="space-y-2">
@@ -75,7 +75,7 @@ export default function SignInPage() {
                 placeholder="Enter your password"
                 className="bg-transparent border border-white text-white backdrop-blur-sm transition-colors focus:bg-transparent"
                 required
-                onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+                onChange={(e: any) => setCredentials({ ...credentials, password: e.target.value })}
               />
             </div>
           </div>

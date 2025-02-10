@@ -12,11 +12,7 @@ export function Header() {
           <div className="flex items-center gap-2">
             <Shield className="h-6 w-6" />
             <span className="text-xl font-semibold">TaskForge</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-medium hover:text-gray-400">Features</a>
-            <a href="#integrations" className="text-sm font-medium hover:text-gray-400">Integrations</a>
-          </nav>
+          </div> 
           <div className="flex items-center gap-4">
             {/* Log in Button */}
             <Link href="/auth/signin">

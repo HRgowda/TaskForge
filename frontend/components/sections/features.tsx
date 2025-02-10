@@ -1,6 +1,6 @@
 "use client";
 
-import { Zap, Workflow, Clock, Shield, Sparkles, Users } from "lucide-react";
+import { Zap, Workflow, Clock } from "lucide-react";
 
 const features = [
   {
@@ -22,7 +22,7 @@ const features = [
 
 export function Features() {
   return (
-    <div className="pt-24 bg-[#121212]" id="features">
+    <div className="pt-20 bg-[#121212]" id="features">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-gradient-to-r from-white/90 to-gray-600 bg-clip-text text-transparent">
@@ -33,7 +33,7 @@ export function Features() {
           </p>
         </div>
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 ">
-          {features.map((feature, index) => (
+          {features.map((feature: any, index: number) => (
             <div key={index} className="relative group  ">
               <div className="absolute -inset-2 border border-white rounded-lg bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="relative flex flex-col items-center text-center p-6">

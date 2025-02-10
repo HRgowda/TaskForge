@@ -1,18 +1,14 @@
 "use client";
 
 import { HOOKS_URL } from "@/app/config";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Copy } from "lucide-react";
+import { Copy } from "lucide-react";
 import { useState } from "react";
 import { zap } from "@/app/(dashboard)/home/page";
 import { AlertMessage } from "../AlertMessage";
-import { useRouter } from "next/navigation";
 
 export function ZapTable({ zaps }: { zaps: zap[] }) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [alertMessage, setAlertMessage] = useState<{ message: string; status: "success" | "failure" } | null>(null);
-
-  const router = useRouter();
 
   const copyWebhookUrl = async (id: string, url: string) => {
     try {
@@ -41,7 +37,7 @@ export function ZapTable({ zaps }: { zaps: zap[] }) {
       </div>
 
       <div className="divide-y divide-[#292929]">
-        {zaps.map((zap, index) => (
+        {zaps.map((zap: any, index: number) => (
           <div
             key={zap.id}
             className="grid grid-cols-5 gap-4 px-6 py-6 items-center hover:bg-[#242424] transition-colors group text-center"
@@ -54,8 +50,8 @@ export function ZapTable({ zaps }: { zaps: zap[] }) {
               </div>
               <div className="flex flex-wrap justify-center gap-2 mt-2">
                 {zap.actions
-                  .sort((a, b) => a.sortingOrder - b.sortingOrder)
-                  .map((action) => (
+                  .sort((a: any, b: any) => a.sortingOrder - b.sortingOrder)
+                  .map((action: any) => (
                     <div
                       key={action.actionId}
                       className="w-10 h-10 rounded-full bg-white shadow-md p-1.5 flex items-center justify-center"
