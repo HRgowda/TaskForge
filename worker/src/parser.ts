@@ -52,11 +52,11 @@ export function parse(text: string, value: any, startDelimeter = "{", endDelimet
 }
 
 // Example input
-// let value = parse("You received {comment.amount} money from {comment.address}", 
+// let value = parse("{comment.amount}", 
 //   {
 //   comment: {
-//     amount: "100",
-//     address: "abcdefg"
+//     address: "hg510443@gmail.com",
+//     amount: "2"
 //   }
 // })
 

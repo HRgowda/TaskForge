@@ -5,23 +5,21 @@ const prisma = new PrismaClient();
 export async function sendInr(from: string, amount: string, to: string) {
 
   try{
-    const fromUser = await prisma.user.findFirst({
+    const fromUser = await prisma.user.findUnique({
       where: {
         email: from
       }
     });
   
-    const toUser = await prisma.user.findFirst({
+    const toUser = await prisma.user.findUnique({
       where: {
         email: to
       }
     });
   
     if(!fromUser || !toUser) {
-      return {
-        success: false,
-        message: "User not found"
-      }
+      console.log("User not found")
+      return;
     }
 
     if (fromUser.INR < parseFloat(amount)) {

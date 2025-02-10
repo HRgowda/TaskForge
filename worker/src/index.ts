@@ -80,7 +80,7 @@ async function main() {
               actions: {
                 include: {
                   type: true,
-                },
+                }, 
               },
               user: true,
             },
@@ -118,7 +118,13 @@ async function main() {
             zapRunMetadata
           );
 
-          if (!to) {
+          const validTo = await prismaClient.user.findFirst({
+            where: {
+              email: to
+            }
+          })
+
+          if (!validTo) {
             console.error("Invalid email address.");
             return;
           }
@@ -134,18 +140,27 @@ async function main() {
       if (currentAction.type.name === "Solana") {
         try {
           console.log("Processing Solana transaction...");
-          const amountRaw = (currentAction.metadata as JsonObject)?.amount as string;
-          const addressRaw = (currentAction.metadata as JsonObject)?.address as string;
+
+          const amount = parse((currentAction.metadata as JsonObject)?.amount as string, zapRunMetadata);
+
+          const recipientAddress = parse((currentAction.metadata as JsonObject)?.address as string, zapRunMetadata);
 
           // Check if the required fields are present and valid
-          if (!amountRaw || !addressRaw) {
+          if (!amount || !recipientAddress) {
             console.error("Missing amount or address in metadata.");
             return;
           }
 
-          // Parse the values (make sure they're in the correct format)
-          const amount = parse(amountRaw, zapRunMetadata);
-          const recipientEmail = parse(addressRaw, zapRunMetadata);
+          const validRecipeintAddress = await prismaClient.user.findFirst({
+            where: {
+              email: recipientAddress
+            }
+          })
+
+          if(!validRecipeintAddress) {
+            console.log("Invalid recipient address");
+            return;
+          }
 
           // Ensure sender email is a string (use type guard)
           const senderEmail = zapRunDetails.zap.user.email;
@@ -156,13 +171,13 @@ async function main() {
           }
 
           // Ensure parsed values are valid
-          if (!amount || !recipientEmail || !senderEmail) {
+          if (!amount || !recipientAddress || !senderEmail) {
             console.error("Invalid Solana transaction details.");
             return;
           }
 
-          await sendSol(senderEmail, amount, recipientEmail);
-          console.log(`Sent SOL ${amount} to ${recipientEmail}`);
+          await sendSol(senderEmail, amount, recipientAddress);
+          console.log(`Sent SOL ${amount} to ${recipientAddress}`);
         } catch (error) {
           console.error("Error processing Solana transaction:", error);
         }
@@ -171,25 +186,35 @@ async function main() {
       if (currentAction.type.name === "INR") {
         try {
           
-          const amountRaw = (currentAction.metadata as JsonObject)?.rupees as string;
-          const addressRaw = (currentAction.metadata as JsonObject)?.address as string;
+          const amount = parse((currentAction.metadata as JsonObject)?.amount as string, zapRunMetadata);
 
-          if (!amountRaw || !addressRaw) {
+          const recipientAddress = parse((currentAction.metadata as JsonObject)?.address as string, zapRunMetadata); // email
+
+          if (!amount || !recipientAddress) {
             console.error("Missing INR amount or address in metadata.");
             return;
           }
 
-          const amount = parse(amountRaw, zapRunMetadata);
-          const recipientEmail = parse(addressRaw, zapRunMetadata);
+          const validRecipeintAddress = await prismaClient.user.findFirst({
+            where: {
+              email: recipientAddress
+            }
+          })
+
+          if(!validRecipeintAddress) {
+            console.log("Invalid recipient address");
+            return;
+          }
+
           const senderEmail = zapRunDetails.zap.user.email;
 
-          if (!amount || !recipientEmail || !senderEmail) {
+          if (!amount || !recipientAddress || !senderEmail) {
             console.error("Invalid INR transaction details.");
             return;
           }
 
-          await sendInr(senderEmail, amount, recipientEmail);
-          console.log(`Sent INR ${amount} to ${recipientEmail}`);
+          await sendInr(senderEmail, amount, recipientAddress);
+          console.log(`Sent INR ${amount} to ${recipientAddress}`);
         } catch (error) {
           console.error("Error processing INR transaction:", error);
         }
