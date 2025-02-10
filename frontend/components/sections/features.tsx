@@ -23,7 +23,7 @@ const features = [
 export function Features() {
   return (
     <div className="pt-24 bg-[#121212]" id="features">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-gradient-to-r from-white/90 to-gray-600 bg-clip-text text-transparent">
             Everything you need to automate your work

@@ -9,7 +9,7 @@ export function CreateZap() {
   const router = useRouter();
 
   return (
-    <div className="relative z-10">
+    <div className="relative z-10 mt-20">
       <div className="bg-[#121212] text-white p-4">
         {/* Header Section */}
         <div className="mb-4 text-center">

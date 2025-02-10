@@ -46,22 +46,21 @@ export function SolanaSelector({ setMetadata }: { setMetadata: (params: any) => 
   );
 }
 
-
 export function InrSelector ({ setMetadata }: { setMetadata: (params: any) => void }) {
 
   const [address, setAddress] = useState("");
-  const [rupees, setRupees] = useState("")
+  const [amount, setAmount] = useState("")
   
   return <div className="text-white space-y-6 p-6 rounded-lg bg-[#1c1c1c] shadow-md">
     <div>
       <Input label="To" placeholder="Enter address" type="text" onChange={(e) => setAddress(e.target.value)}></Input>
     </div>
     <div>
-      <Input label="Amount" placeholder="Enter the amount" type="text" onChange={(e) => setRupees(e.target.value)}></Input>
+      <Input label="Amount" placeholder="Enter the amount" type="text" onChange={(e) => setAmount(e.target.value)}></Input>
     </div>
     <div className="pt-4">
       <Button onClick={() => {
-        setMetadata({ address, rupees})
+        setMetadata({ address, amount})
       }}className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">Proceed
       </Button>
     </div>

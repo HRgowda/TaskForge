@@ -23,6 +23,7 @@ export function ZapTable({ zaps }: { zaps: zap[] }) {
       setAlertMessage({ message: "Failed to copy the URL", status: "failure" });
     }
   };
+  
 
   return (
     <div className="bg-[#1E1E1E] rounded-lg mt-2 shadow-md border border-[#292929] hover:shadow-white">
