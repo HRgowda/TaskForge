@@ -36,7 +36,7 @@ async function main() {
         });
 
         if (pendingRows.length === 0) {
-          console.log("No pending messages, waiting...");
+          // console.log("No pending messages, waiting...");
           await new Promise((r) => setTimeout(r, 3000));
           continue;
         }        
@@ -47,7 +47,7 @@ async function main() {
           topic: TOPIC_NAME,
           messages: pendingRows.map((r) => ({
             value: JSON.stringify({
-              value: r.zapRunId,
+              zapRunId: r.zapRunId,
               userId: r.zapRun.zap.userId,
               stage: 0, // stage defines which action the "worker" is currently executing
             }),
