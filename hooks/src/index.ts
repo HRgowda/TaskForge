@@ -7,32 +7,36 @@ const app = express();
 app.use(express.json());
 
 app.post("/hooks/catch/:userId/:zapId", async (req: any, res: any) => {
-
   try {
     const { userId, zapId } = req.params;
     const requestedBody = req.body;
 
-    let actualBody;
-    try {
-      actualBody = JSON.parse(requestedBody?.comment?.body);
-    } catch (jsonError) {
-      console.error("Error parsing JSON:", jsonError);
-      return res.status(400).json({ error: "Invalid JSON in request body" });
+    let actualBody: { amount: string; email: string; };
+    
+    // Check if 'comment.body' exists and contains the string data
+    if (requestedBody?.comment?.body) {
+      try {
+        // Extract 'amount' and 'email' using regex
+        const bodyString = requestedBody.comment.body;
+
+        const amountMatch = bodyString.match(/amount:\s*"([^"]+)"/);
+        const emailMatch = bodyString.match(/email:\s*"([^"]+)"/);
+
+        // Format the extracted data
+        actualBody = {
+          amount: amountMatch ? amountMatch[1] : null,
+          email: emailMatch ? emailMatch[1] : null,
+        };
+      } catch (jsonError) {
+        console.error("Error parsing body string:", jsonError);
+        return res.status(400).json({ error: "Invalid body format" });
+      }
+    } else {
+      return res.status(400).json({ error: "No comment body found" });
     }
 
-    const amountMatch = actualBody?.amount;
-    const emailMatch = actualBody?.email;
-
-    const formattedBody = {
-      comment: {
-        amount: amountMatch ? amountMatch[1] : null,
-        email: emailMatch ? emailMatch[1] : null,
-      },
-    };
-
-    // Log's for some testing purpose..
+    // Log for debugging
     console.log("Webhook received!");
-    // console.log(JSON.stringify(requestedBody, null, 2));
     // console.log("Actual body", actualBody);
 
     // Store in DB a new trigger
@@ -41,7 +45,9 @@ app.post("/hooks/catch/:userId/:zapId", async (req: any, res: any) => {
         const run = await tx.zapRun.create({
           data: {
             zapId: zapId,
-            metadata: formattedBody,
+            metadata: {
+              comment: actualBody,
+            },
           },
         });
 

@@ -6,61 +6,70 @@ import { prismaClient } from "../db";
 const router = Router();
 
 router.post("/", authMiddleware, async (req: any, res: any) => {
-    // @ts-ignore
-    const id: string = req.id;
-    const body = req.body;
-    const parsedData = ZapCreateSchema.safeParse(body);
-    
-    if (!parsedData.success) {
-        return res.status(411).json({
-            message: "Incorrect inputs"
+    try {
+
+        const id: string = req.user?.id;
+        const body = req.body;
+
+        // Validate request body
+        const parsedData = ZapCreateSchema.safeParse(body);
+        if (!parsedData.success) {
+            return res.status(411).json({ message: "Incorrect inputs" });
+        }
+
+        // Ensure user ID is a valid number
+        const userId = parseInt(id);
+        if (isNaN(userId)) {
+            return res.status(400).json({ message: "Invalid user ID" });
+        }
+
+        // Start transaction
+        const zapId = await prismaClient.$transaction(async (tx) => {
+            // Create Zap entry with a temporary triggerId
+            const zap = await tx.zap.create({
+                data: {
+                    userId: userId,
+                    triggerId: "pending", // Temporary string value
+                    actions: {
+                        create: parsedData.data.actions.map((x, index) => ({
+                            actionId: x.availableActionId,
+                            sortingOrder: index,
+                        })),
+                    },
+                },
+            });
+
+            // Create Trigger entry
+            const trigger = await tx.trigger.create({
+                data: {
+                    triggerId: parsedData.data.availableTriggerId,
+                    zapId: zap.id,
+                },
+            });
+
+            // Update Zap with the actual triggerId
+            await tx.zap.update({
+                where: { id: zap.id },
+                data: { triggerId: trigger.id },
+            });
+
+            return zap.id;
         });
-    }   
 
-    const zapId = await prismaClient.$transaction(async tx => {
-        const zap = await prismaClient.zap.create({
-            data: {
-                userId: parseInt(id),
-                triggerId: "",
-                actions: {
-                    create: parsedData.data.actions.map((x, index) => ({
-                        actionId: x.availableActionId,
-                        sortingOrder: index
-                    }))
-                }
-            }
-        })
+        return res.json({ zapId });
 
-        const trigger = await tx.trigger.create({
-            data: {
-                triggerId: parsedData.data.availableTriggerId,
-                zapId: zap.id,
-            }
-        });
+    } catch (error) {
+        console.error("Error creating zap:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
 
-        await tx.zap.update({
-            where: {
-                id: zap.id
-            },
-            data: {
-                triggerId: trigger.id
-            }
-        })
-
-        return zap.id;
-
-    })
-    return res.json({
-        zapId
-    })
-})
 
 router.get("/", authMiddleware, async (req: any, res: any) => {
-    // @ts-ignore
-    const id = req.id;
+    const userid = req.user.id;
     const zaps = await prismaClient.zap.findMany({
         where: {
-            userId: id
+            userId: userid
         },
         include: {
             actions: {

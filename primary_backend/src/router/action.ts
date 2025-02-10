@@ -5,10 +5,18 @@ import { authMiddleware } from '../middleware';
 const router = Router();
 
 router.get("/available", async (req, res) => {
-  const availableActions = await prismaClient.availableAction.findMany({});
-  res.json({
-    availableActions
-  })
+
+  try {
+    const availableActions = await prismaClient.availableAction.findMany({});
+    res.json({
+      availableActions
+    });
+  } catch (error) {
+    console.log("Error fetching available actions");
+    res.status(500).json({
+      error: 'Internal server error.'
+    })
+  }  
 })
 
 export const actionRouter = router;

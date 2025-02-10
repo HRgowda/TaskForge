@@ -2,7 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { JWT_PASSWORD } from "./config";
 
-export function authMiddleware(req: any, res: Response, next: NextFunction): void {
+interface AuthenticatedRequest extends Request {
+  user?: { id: number }
+}
+
+export function authMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
   
   const token = req.headers.authorization;
 
@@ -13,10 +17,15 @@ export function authMiddleware(req: any, res: Response, next: NextFunction): voi
 
   try {
     const payload = jwt.verify(token, JWT_PASSWORD) as { id: number };
-    req.user = { id: payload.id }; // Store the user ID properly
+
+    req.user = { id: payload.id }; 
+
     next(); // Always call next() if successful
+    
   } catch (e) {
+
     res.status(403).json({ message: "Invalid or expired token" });
-    return; // Ensure no further execution
+    
+    return;
   }
 }

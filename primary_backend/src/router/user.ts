@@ -13,76 +13,86 @@ const prisma = new PrismaClient()
 router.use(express.json())
 
 router.post("/signup", async (req: any, res: any) => {
-  
-  const body = req.body
-  const parsedData = SignupSchema.safeParse(body);
+  try {
+    const body = req.body;
+    const parsedData = SignupSchema.safeParse(body);
 
-  if(!parsedData.success) {
-    return res.status(411).json({
-      message: "Incorrect inputs"
-    })
-  }
-
-  const userExists = await prisma.user.findFirst({
-    where: {
-      email: parsedData.data.username
+    if (!parsedData.success) {
+      return res.status(411).json({
+        message: "Incorrect inputs",
+      });
     }
-  });
 
-  if (userExists) {
-    return res.status(403).json({
-      message: "User already exits"
-    })
-  }
+    const userExists = await prisma.user.findFirst({
+      where: {
+        email: parsedData.data.username,
+      },
+    });
 
-  await prisma.user.create({
-    data:{
-      email: parsedData.data.username,
-      password: parsedData.data.password,
-      name: parsedData.data.name,
-      Solana: 10,
-      INR: 5000
-    } 
-  })
-
-  return res.status(200).json({
-    message: "Account created sucessfully!"
-  })
-
-})
-
-router.post("/signin", async(req: any, res: any) => {
-  const body = req.body;
-  const parsedData = SigninSchema.safeParse(body);
-
-  if(!parsedData.success) {
-    return res.status(411).json({
-      message: "Incorrect inputs"
-    })
-  }
-
-  const user = await prisma.user.findFirst({
-    where: {
-      email: parsedData.data.username,
-      password: parsedData.data.password
+    if (userExists) {
+      return res.status(403).json({
+        message: "User already exists",
+      });
     }
-  });
 
-  if(!user) {
-    return res.status(403).json({
-      message: "Sorry crdentials are incorrect"
-    })
+    await prisma.user.create({
+      data: {
+        email: parsedData.data.username,
+        password: parsedData.data.password,
+        name: parsedData.data.name,
+        Solana: 10,
+        INR: 5000,
+      },
+    });
+
+    return res.status(200).json({
+      message: "Account created successfully!",
+    });
+  } catch (error) {
+    console.error("Signup error:", error);
+    return res.status(500).json({
+      message: "Internal Server Error",
+    });
   }
+});
 
-  const token = jwt.sign({
-    id: user.id
-  }, JWT_PASSWORD)
+router.post("/signin", async (req: any, res: any) => {
+  try {
+    const body = req.body;
+    const parsedData = SigninSchema.safeParse(body);
 
-  return res.status(200).json({
-    token: token,
-    message: "Logged In successfully!"
-  })
-})
+    if (!parsedData.success) {
+      return res.status(411).json({
+        message: "Incorrect inputs",
+      });
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        email: parsedData.data.username,
+        password: parsedData.data.password,
+      },
+    });
+
+    if (!user) {
+      return res.status(403).json({
+        message: "Sorry, credentials are incorrect",
+      });
+    }
+
+    const token = jwt.sign({ id: user.id }, JWT_PASSWORD);
+
+    return res.status(200).json({
+      token: token,
+      message: "Logged in successfully!",
+    });
+  } catch (error) {
+    console.error("Signin error:", error);
+    return res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
 
 router.get("/logged_user", authMiddleware, async (req: any, res: any) => {
   try {
