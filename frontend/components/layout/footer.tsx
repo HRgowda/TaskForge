@@ -20,7 +20,7 @@ export function Footer() {
               <ul className="space-y-3">
                 {links.map((link: any) => (
                   <li key={link}>
-                    <a href="#" className="text-gray-400 hover text-sm">
+                    <a href={link === "Features" ? "/Features" : link === "Integrations" ? "/integrations" : link === "About" ? "/about" : ""} className="text-gray-400 hover text-sm">
                       {link}
                     </a>
                   </li>
