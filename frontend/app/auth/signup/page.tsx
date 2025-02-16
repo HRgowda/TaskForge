@@ -43,7 +43,7 @@ export default function SignUpPage() {
         router.push("/auth/signin");
       }
     } catch (error: any) {  
-      if (error.response) {
+      if (error.response) { // handle axios error response
         setAlertmessage({
           message: error.response.data.message || "Something went wrong!",
           status: "failure"
