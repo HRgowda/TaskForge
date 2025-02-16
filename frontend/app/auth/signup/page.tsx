@@ -28,25 +28,34 @@ export default function SignUpPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    try{
+    
+    try {
       const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, credentials, {
         headers: {
           "Content-Type": "application/json"
         }
       });
-
-      if(response.status == 200) {
-        setAlertmessage({message: response.data.message, status: "success"})
-        router.push("/auth/signin")
-        setIsLoading(false)
+  
+      setIsLoading(false);
+  
+      if (response.status === 200) {
+        setAlertmessage({ message: response.data.message, status: "success" });
+        router.push("/auth/signin");
       }
-    } catch(error: any) {
-      console.log(error)
-      const errorMessage = "Failed to create your account, Please try again later"
-      setAlertmessage({message: errorMessage, status: "failure"})
-      setIsLoading(false)
+    } catch (error: any) {  
+      if (error.response) {
+        setAlertmessage({
+          message: error.response.data.message || "Something went wrong!",
+          status: "failure"
+        });
+      } else {
+        setAlertmessage({ message: "Network error, please try again!", status: "failure" });
+      }
+      
+      setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="flex h-screen">

@@ -37,9 +37,17 @@ export default function SignInPage() {
         }, 3000);
       }
     } catch (error: any) {
-      const errorMessage = "Failed to log in, check your credentials";
-      setAlertMessage({ message: errorMessage, status: "failure" });
-      console.log(error);
+      if(error.response) {
+        setAlertMessage({
+          message: error.response.data.message || "Something went wrong",
+          status: "failure"
+        })
+      } else {
+        setAlertMessage({
+          message: "Network error. Please try again later!",
+          status: "failure"
+        })
+      }
     } finally {
       setIsLoading(false);
     }
