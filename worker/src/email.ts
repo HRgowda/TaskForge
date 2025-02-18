@@ -16,7 +16,7 @@ export async function sendEmail (to: string, body: string) {
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to,
-    subject: "Hello from TaskForge",
+    subject: "Hello from TaskForge",  
     text: body
   })
 }
