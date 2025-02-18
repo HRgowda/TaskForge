@@ -31,9 +31,10 @@ router.post("/", authMiddleware, async (req: any, res: any) => {
                     userId: userId,
                     triggerId: "pending", // Temporary string value
                     actions: {
-                        create: parsedData.data.actions.map((x, index) => ({
+                        create: parsedData.data.actions.map((x: any, index: any) => ({
                             actionId: x.availableActionId,
                             sortingOrder: index,
+                            metadata: x.actionMetadata
                         })),
                     },
                 },
@@ -54,7 +55,7 @@ router.post("/", authMiddleware, async (req: any, res: any) => {
             });
 
             return zap.id;
-        });
+        }, { timeout: 30000});
 
         return res.json({ zapId });
 
