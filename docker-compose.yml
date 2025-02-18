@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   zookeeper:
     image: zookeeper:latest 
     container_name: zookeeper
@@ -12,7 +11,7 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
-    image: apache/kafka:3.7.1 
+    image: apache/kafka:latest
     container_name: kafka
     restart: always
     ports:
@@ -24,27 +23,30 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
     depends_on:
       - zookeeper
-  
+
   primary_backend:
     build: ./primary_backend
+    image: hemanthrgowda18/taskforge:primary_backend.v1
     container_name: taskforge-primary_backend
     restart: always
     ports:
       - "3001:3001"
     env_file:
-      - ./primary_backend/.env
-  
+      - ./primary_backend/.env  
+
   hooks:
     build: ./hooks
+    image: hemanthrgowda18/taskforge:hooks.v1
     container_name: taskforge-hooks
     restart: always
     ports:
       - "3002:3002"
     env_file:
-      - ./hooks/.env
+      - ./hooks/.env  
 
   processor:
     build: ./processor
+    image: hemanthrgowda18/taskforge:processor.v1
     container_name: taskforge-processor
     restart: always
     depends_on:
@@ -52,17 +54,17 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
     env_file:
-      - ./processor/.env
+      - ./processor/.env 
 
   worker: 
     build: ./worker
+    image: hemanthrgowda18/taskforge:worker.v1
     container_name: taskforge-worker
     restart: always
     depends_on:
       - kafka
     environment:
       - KAFKA_BROKER=kafka:9092
-      - ./worker/.env
     env_file:
       - ./worker/.env
-    
+      - ./.env  
