@@ -27,7 +27,7 @@ app.post("/hooks/catch/:userId/:zapId", async (req: any, res: any) => {
           amount: amountMatch ? amountMatch[1] : null,
           email: emailMatch ? emailMatch[1] : null,
         };
-      } catch (jsonError) {
+      } catch (jsonError: any) {
         console.error("Error parsing body string:", jsonError);
         return res.status(400).json({ error: "Invalid body format" });
       }
@@ -41,7 +41,7 @@ app.post("/hooks/catch/:userId/:zapId", async (req: any, res: any) => {
 
     // Store in DB a new trigger
     try {
-      await client.$transaction(async (tx) => {
+      await client.$transaction(async (tx: any) => {
         const run = await tx.zapRun.create({
           data: {
             zapId: zapId,
@@ -56,8 +56,8 @@ app.post("/hooks/catch/:userId/:zapId", async (req: any, res: any) => {
             zapRunId: run.id,
           },
         });
-      });
-    } catch (dbError) {
+      }, {timeout: 30000});
+    } catch (dbError: any) {
       console.error("Database transaction error:", dbError);
       return res.status(500).json({ error: "Database transaction failed" });
     }
@@ -66,7 +66,7 @@ app.post("/hooks/catch/:userId/:zapId", async (req: any, res: any) => {
       message: "Webhook Received",
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Unexpected error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
