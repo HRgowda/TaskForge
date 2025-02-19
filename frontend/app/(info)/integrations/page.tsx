@@ -1,6 +1,26 @@
 "use client";
 
-import { SectionHeader, SectionParagraph, SectionList } from "@/components/ReusableComponents";
+import { SectionHeader, SectionParagraph } from "@/components/ReusableComponents";
+
+interface ListItem {
+  title: string;
+  description: string;
+}
+
+interface SectionListProps {
+  items: ListItem[];
+}
+
+const SectionList = ({ items }: SectionListProps) => (
+  <ul className="text-lg text-gray-300 mb-6 sm:text-base md:text-lg lg:text-xl">
+    {items.map((item, index) => (
+      <li key={index} className="mt-6">
+        <h3 className="text-xl font-semibold text-white">{item.title}</h3>
+        <p className="text-gray-400 mt-2">{item.description}</p>
+      </li>
+    ))}
+  </ul>
+);
 
 const integrations = [
   {

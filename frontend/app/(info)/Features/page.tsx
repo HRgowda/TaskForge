@@ -1,17 +1,17 @@
-interface SectionHeaderProps {
+export interface SectionHeaderProps {
   children: React.ReactNode;
 }
 
-const SectionHeader = ({ children }: SectionHeaderProps) => (
-  <h2 className="text-2xl font-semibold text-white mt-8 mb-4 sm:text-xl md:text-2xl lg:text-3xl">{children}</h2>
+export const SectionHeader = ({ children }: SectionHeaderProps) => (
+  <h2 className="text-2xl font-semibold text-white mt-8 mb-4 sm:text-xl md:text-2xl lg:text-xl">{children}</h2>
 );
 
-interface SectionParagraphProps {
+export interface SectionParagraphProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const SectionParagraph = ({ children, className = '' }: SectionParagraphProps) => (
+export const SectionParagraph = ({ children, className = '' }: SectionParagraphProps) => (
   <p className={`text-lg text-gray-500 mb-4 ${className} sm:text-base md:text-lg lg:text-xl`}>
     {children}
   </p>
@@ -27,16 +27,17 @@ interface SectionListProps {
 }
 
 const SectionList = ({ items }: SectionListProps) => (
-  <ul className="list-disc pl-6 text-lg text-gray-300 mb-6 sm:text-base md:text-lg lg:text-xl">
+  <ul className="pl-6 text-lg text-gray-300 mb-6 sm:text-base md:text-lg lg:text-xl">
     {items.map((item, index) => (
-      <li key={index} className="mt-4">
-        <strong className="text-white">{item.title}:</strong> {item.description}
+      <li key={index} className="mt-6">
+        <strong className="block text-white text-xl mb-1">{item.title}</strong>
+        <span className="text-gray-400 text-lg">{item.description}</span>
       </li>
     ))}
   </ul>
 );
 
-const Features: React.FC = () => {
+export default function Features () {
   const featuresList: ListItem[] = [
     {
       title: 'Automated Bounty Distribution',
@@ -71,5 +72,3 @@ const Features: React.FC = () => {
     </div>
   );
 };
-
-export default Features;

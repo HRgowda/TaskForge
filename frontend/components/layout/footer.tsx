@@ -9,23 +9,18 @@ const footerLinks = {
   Legal: ['Privacy', 'T&C'],
 };
 
+const info = ["About", "Feautres", "Integrations", "Docs", "T&C", "Privacy"]
+
 export function Footer() {
   return (
     <footer className="bg-[#121212] text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:gap-12">
-          {Object.entries(footerLinks).map(([category, links]): any => (
-            <div key={category}>
-              <h3 className="font-semibold mb-4">{category}</h3>
-              <ul className="space-y-3">
-                {links.map((link: any) => (
-                  <li key={link}>
-                    <a href={link === "Features" ? "/Features" : link === "Integrations" ? "/integrations" : link === "About" ? "/about" : ""} className="text-gray-400 hover text-sm">
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+        <div className="flex justify-between gap-8 lg:gap-12">
+          {info.map((link): any => (
+            <div key={link}>
+              <a href={
+                link == "About" ? "/about" : link == "Feautres" ? "/Features" : link == "Integrations" ? "/integrations" : link == "Docs" ? "/docs" : link == "T&C" ? "/t&c" : link == "Privacy" ? "/privacy" : "#"
+              } className="font-bold text-white/80 hover:underline bg-clip-text text-transparent">{link}</a>
             </div>
           ))}
         </div>
