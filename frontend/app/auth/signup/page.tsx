@@ -118,7 +118,7 @@ export default function SignUpPage() {
               >
                 I agree to the{" "}
                 <Link
-                  href="/"
+                  href="/t&c"
                   className="font-medium text-white hover:text-white/80 transition-colors"
                 >
                   Terms of Service
