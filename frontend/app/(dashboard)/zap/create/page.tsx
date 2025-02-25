@@ -71,7 +71,7 @@ export default function Page() {
     <div className="min-h-screen flex bg-[#121212] pt-20">
 
       {/* Left Grid (Fixed - 40%) */}
-      <div className="w-2/5 p-8 text-white flex flex-col sticky top-0 h-screen overflow-hidden bg-[#121212]">
+      <div className="hidden lg:flex lg:w-2/5 p-8 text-white flex flex-col sticky top-0 h-screen overflow-hidden bg-[#121212]">
         <h2 className="text-4xl font-extrabold text-gradient mt-6">Welcome to the Zap Creator</h2>
         <p className="text-lg text-gray-400 mt-10">
           Build powerful automation workflows with ease! Set Triggers that initiate actions and customize your automation logic to save time and boost productivity.
@@ -96,7 +96,7 @@ export default function Page() {
       </div>
 
       {/* Right Grid (Scrollable - 60%) */}
-      <div className="w-3/5 p-8 overflow-y-auto h-screen">
+      <div className="w-full lg:w-3/5 p-8 overflow-y-auto h-screen">
 
         {/* Header */}
         <div className="text-center mb-8 mt-6">

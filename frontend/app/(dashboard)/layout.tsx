@@ -41,7 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col h-screen">
       <nav className="fixed top-0 left-0 w-full z-20 bg-transparent">
-        <div className="backdrop-blur-lg rounded-lg mx-4 max-w-7xl px-6 sm:px-2 sm:rounded-lg lg:mx-auto">
+        <div className="backdrop-blur-xl rounded-lg max-w-7xl px-6 sm:px-2 sm:rounded-lg lg:mx-auto ">
           <div className="flex justify-between items-center p-4">
             {/* Logo */}
             <div className="flex items-center space-x-2 cursor-pointer" onClick={() => router.push("/home")}>  
