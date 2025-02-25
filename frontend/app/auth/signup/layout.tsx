@@ -1,5 +1,3 @@
-// layout.tsx
-
 import { ReactNode } from "react";
 
 interface LayoutProps {
@@ -12,8 +10,8 @@ export default function Layout({ children }: LayoutProps) {
       {/* Sunlight Gradient at the Top Left */}
       <div className="absolute top-0 left-0 w-full h-2/4 bg-gradient-to-br from-blue-700 via-transparent to-transparent opacity-50"></div>
 
-      {/* Left Section: Design */}
-      <div className="w-1/2 flex items-center justify-center">
+      {/* Left Section: Hidden on Small Screens, Visible on Medium and Larger Screens */}
+      <div className="hidden md:flex md:w-1/2 items-center justify-center">
         <div className="text-white p-12 space-y-6 relative z-10">
           <div className="font-semibold text-2xl text-blue-500">
             Welcome to Your Journey
@@ -24,8 +22,8 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </div>
 
-      {/* Right Section: Rendered Children */}
-      <div className="w-1/2 flex items-center justify-center">
+      {/* Right Section: Full Width on Small Screens, Half Width on Larger Screens */}
+      <div className="w-full md:w-1/2 flex items-center justify-center">
         <div className="w-4/5">
           {children}
         </div>
