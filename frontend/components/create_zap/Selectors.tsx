@@ -35,7 +35,7 @@ export function SolanaSelector({ setMetadata }: { setMetadata: (params: any) => 
         <Input label="To" type="text" placeholder="Enter recipient's email as {comment.email}" onChange={(e: any) => setAddress(e.target.value)} />
       </div>
       <div>
-        <Input label="Solana" type="text" placeholder="Enter the number SOLANA USDC as {comment.amount}" onChange={(e: any) => setAmount(e.target.value)} />
+        <Input label="Solana" type="text" placeholder="Enter the number of SOLANA USDC as {comment.amount}" onChange={(e: any) => setAmount(e.target.value)} />
       </div>
       <div className="pt-4">
         <Button onClick={() => { setMetadata({amount, address}) }}className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300" >
