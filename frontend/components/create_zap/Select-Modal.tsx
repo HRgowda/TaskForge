@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { EmailSelector, InrSelector, SolanaSelector } from "./Selectors";
-import { metadata } from "@/app/layout";
 
 export function Modal({
   index,
