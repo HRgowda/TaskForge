@@ -17,7 +17,7 @@ export function Modal({
 
   return (
     <div className="fixed inset-0 z-50 flex justify-center items-center bg-[#121212] bg-opacity-80 backdrop-blur-md">
-      <div className="relative w-full max-w-md sm:max-w-md md:max-w-md lg:max-w-lg bg-[#1c1c1c] rounded-lg shadow-2xl border border-slate-600 p-8">
+      <div className="relative w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl bg-[#1c1c1c] rounded-lg shadow-2xl border border-slate-600 p-8">
         <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
           <div className="text-2xl font-semibold text-white">
             Select {isTrigger ? "Trigger" : "Action"}
