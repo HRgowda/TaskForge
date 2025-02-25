@@ -12,7 +12,7 @@ export const Input = ({ label, placeholder, onChange, type = "text" }: {
         * <label>{label}</label>
       </div>
       <input 
-        className="w-full sm:min-w-[20rem] md:min-w-[24rem] lg:min-w-[28rem] px-4 py-3 border border-slate-500 rounded-lg bg-[#1c1c1c] text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+        className="w-full sm:min-w-[20rem] md:min-w-[24rem] lg:min-w-[28rem] p-3 border border-slate-500 rounded-lg bg-[#1c1c1c] text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
         type={type} 
         placeholder={placeholder} 
         onChange={onChange} 

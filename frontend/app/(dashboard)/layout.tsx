@@ -59,10 +59,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             
             {/* Mobile Menu Button */}
             <div className="sm:hidden">
-              <Button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <Button onClick={() => setIsMenuOpen(!isMenuOpen)} className="bg-transparent hover:bg-transparent focus:bg-transparent">
                 {isMenuOpen ? <FiX className="text-2xl" /> : <FiMenu className="text-2xl text-white" />}
               </Button>
-            </div>
+</div>
+
             
             {/* Logout Button (Desktop Only) */}
             <Button onClick={handleLogout} className="hidden sm:flex text-gray-100 hover:bg-transparent hover:text-blue-500 transition-all duration-200 px-4 py-2 rounded-lg">
